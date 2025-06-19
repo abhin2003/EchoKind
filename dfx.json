@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "Breve_backend": {
+      "main": "src/Breve_backend/main.mo",
+      "type": "motoko"
+    },
+    "Breve_frontend": {
+      "dependencies": [
+        "Breve_backend"
+      ],
+      "source": [
+        "src/Breve_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "Breve_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
