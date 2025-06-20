@@ -49,6 +49,22 @@ actor {
     return userMessages;
   };
 
+  // Get sent messages function - returns messages sent by a user
+  public func getSentMessages(userPrincipal: Text): async [Message] {
+    let allMessages = Buffer.toArray(messages);
+    
+    // Filter messages where the user is the sender
+    let sentMessages = Array.filter<Message>(allMessages, func(msg) {
+      msg.sender == userPrincipal
+    });
+    
+    return sentMessages;
+  };
+
+  // Get all messages (for debugging)
+  public func getAllMessages(): async [Message] {
+    return Buffer.toArray(messages);
+  };
 
   // Clear all messages (for testing)
   public func clearMessages(): async Bool {
