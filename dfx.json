@@ -2,23 +2,31 @@
   "canisters": {
     "Breve_backend": {
       "main": "src/Breve_backend/main.mo",
+      "dependencies": ["llm"],
       "type": "motoko"
     },
     "Breve_frontend": {
-      "dependencies": [
-        "Breve_backend"
-      ],
-      "source": [
-        "src/Breve_frontend/dist"
-      ],
       "type": "assets",
+      "source": ["src/Breve_frontend/dist"],
+      "dependencies": ["Breve_backend"],
       "workspace": "Breve_frontend"
+    },
+    "llm": {
+      "type": "custom",
+      "candid": "https://github.com/dfinity/llm/releases/latest/download/llm-canister-ollama.did",
+      "wasm": "https://github.com/dfinity/llm/releases/latest/download/llm-canister-ollama.wasm",
+      "remote": {
+        "id": {
+          "ic": "w36hm-eqaaa-aaaal-qr76a-cai"
+        }
+      },
+      "specified_id": "w36hm-eqaaa-aaaal-qr76a-cai"
     }
   },
   "defaults": {
     "build": {
       "args": "",
-      "packtool": ""
+      "packtool": "mops sources"
     }
   },
   "output_env_file": ".env",
