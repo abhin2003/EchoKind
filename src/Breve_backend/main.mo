@@ -22,43 +22,43 @@ actor {
   public type Key = Text;
   public type Project = Text;
 
-  // --- Messaging Functionality ---
-  func isHarassment(content: Text): async Bool {
-    let promptText = "Does the following message contain harassment? Answer only with YES or NO.\n\nMessage:\n" # content;
-    let response = await LLM.prompt(#Llama3_1_8B, promptText);
-    Debug.print("LLM Response: " # response);
+  // Analyze message content using LLM
+	  func isHarassment(content: Text): async Bool {
+	  let promptText = "Does the following message contain harassment? Answer only with YES or NO.\n\nMessage:\n" # content;
+	  let response = await LLM.prompt(#Llama3_1_8B, promptText);
+	  Debug.print("LLM Response: " # response);
 
-    switch (Text.toUppercase(response)) {
-      case ("YES" or "YES." or "YES\n" or "YES.\n") { true };
-      case _ { false };
-    }
-  };
+	  switch (Text.toUppercase(response)) {
+	    case ("YES" or "YES." or "YES\n" or "YES.\n") { true };
+	    case _ { false };
+	  }
+	};
 
-  public func sendMessage(sender: Text, receiver: Text, content: Text): async Bool {
-    let flagged = await isHarassment(content);
-    if (flagged) {
-      Debug.print("⚠️ Harassment detected. Message blocked.");
-      return false;
-    };
+	  public func sendMessage(sender: Text, receiver: Text, content: Text): async Bool {
+	    let flagged = await isHarassment(content);
+	    if (flagged) {
+	      Debug.print("⚠️ Harassment detected. Message blocked.");
+	      return false;
+	    };
 
-    let newMessage: Message = {
-      sender = sender;
-      receiver = receiver;
-      content = content;
-      timestamp = Time.now();
-    };
+	    let newMessage: Message = {
+	      sender = sender;
+	      receiver = receiver;
+	      content = content;
+	      timestamp = Time.now();
+	    };
 
-    messages.add(newMessage);
+	    messages.add(newMessage);
 
-    Debug.print("✅ Message sent:");
-    Debug.print("From: " # sender);
-    Debug.print("To: " # receiver);
-    Debug.print("Content: " # content);
+	    Debug.print("✅ Message sent:");
+	    Debug.print("From: " # sender);
+	    Debug.print("To: " # receiver);
+	    Debug.print("Content: " # content);
 
-    return true;
-  };
+	    return true;
+	  };
 
-  public func receiveMessages(userPrincipal: Text): async [Message] {
+  public query func receiveMessages(userPrincipal: Text): async [Message] {
     let allMessages = Buffer.toArray(messages);
     Array.filter<Message>(allMessages, func(msg) {
       msg.receiver == userPrincipal

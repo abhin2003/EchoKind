@@ -2,23 +2,34 @@
   "canisters": {
     "Breve_backend": {
       "main": "src/Breve_backend/main.mo",
-      "type": "motoko"
+      "type": "motoko",
+      "id": "usxsn-hyaaa-aaaad-aapxq-cai"
+    },
+    "llm": {
+      "type": "pull",
+      "id": "w36hm-eqaaa-aaaal-qr76a-cai"
     },
     "Breve_frontend": {
-      "dependencies": [
-        "Breve_backend"
-      ],
-      "source": [
-        "src/Breve_frontend/dist"
-      ],
+      "dependencies": ["Breve_backend"],
+      "source": ["src/Breve_frontend/dist"],
       "type": "assets",
-      "workspace": "Breve_frontend"
+      "workspace": "Breve_frontend",
+      "id": "wpk4f-uqaaa-aaaad-aapya-cai"
     }
   },
   "defaults": {
     "build": {
       "args": "",
       "packtool": "mops sources"
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:4943",
+      "type": "ephemeral"
+    },
+    "ic": {
+      "providers": ["https://ic0.app"]
     }
   },
   "output_env_file": ".env",
